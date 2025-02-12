@@ -1,5 +1,11 @@
 import Activities from "@/components/Activities";
 import Heading from "@/components/Heading";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "aktiviteter",
+  description: "her kan du finde aktiviteter hos Landrup Dans",
+};
 
 export default async function aktiviteter() {
   try {

@@ -6,7 +6,9 @@ export default function Heading({
   padding: number;
 }) {
   return (
-    <h1 className={`p-${padding} px-${padding + 3} text-lg text-primaryWhite`}>
+    <h1
+      className={`p-${padding} px-${padding + 3} text-lg text-primaryWhite truncate`}
+    >
       {content}
     </h1>
   );

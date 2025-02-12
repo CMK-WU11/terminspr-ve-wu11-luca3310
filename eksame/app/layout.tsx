@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "velkommen | Landrup Dans",
-    description: "på denne hjemmeside vil du kunne tilmelde dig danse kurser",
+  title: {
+    template: "%s | Landrup Dans",
+    default: "Landrup Dans",
+  },
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="da">
-            <body className="antialiased font-ubuntu">{children}</body>
-        </html>
-    );
+  return (
+    <html lang="da">
+      <body className="antialiased font-ubuntu">{children}</body>
+    </html>
+  );
 }

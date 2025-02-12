@@ -7,6 +7,10 @@ export default async function loginAction(prevState: any, formData: FormData) {
   const username = formData.get("username");
   const password = formData.get("password");
 
+  const checked = formData.get("checked");
+
+  console.log(checked);
+
   if (!username || !password) {
     return {
       formData: {
@@ -43,8 +47,8 @@ export default async function loginAction(prevState: any, formData: FormData) {
 
     const cookieStore = await cookies();
 
-    cookieStore.set("landrupToken", data.token);
-    cookieStore.set("landrupUserId", data.userId);
+    cookieStore.set("landrupToken", data.token, { maxAge: 50 * 60 * 1000 });
+    cookieStore.set("landrupUserId", data.userId, { maxAge: 50 * 60 * 1000 });
   } catch (err: any) {
     throw new Error(err);
   }

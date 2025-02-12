@@ -1,7 +1,12 @@
 import Heading from "@/components/Heading";
-import Link from "next/link";
-
+import CalendarActivities from "@/components/CalendarActivities";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "kalender",
+  description: "kig i igennem aktiviteter du har tilmeldt dig til",
+};
 
 interface Activity {
   name: string;
@@ -20,7 +25,6 @@ export default async function kalender() {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
-    console.log(data);
     const activities = data.activities.map((activity: Activity) => {
       return {
         name: activity.name,
@@ -28,32 +32,37 @@ export default async function kalender() {
         id: activity.id,
       };
     });
+    if (data.role === "default") {
+      return (
+        <>
+          <Heading content="Kalender" padding={2} />
+          <ul className="flex overflow-y-scroll flex-col gap-7 px-5">
+            <CalendarActivities activities={activities} isInstructor={false} />
+          </ul>
+        </>
+      );
+    }
+
+    const resActivities = await fetch(
+      "http://localhost:4000/api/v1/activities",
+    );
+    const dataActivites = await resActivities.json();
+    const filteredData = dataActivites
+      .map((item: any) => {
+        return {
+          id: item.id,
+          name: item.name,
+          time: item.time,
+          instructorId: item.instructorId,
+        };
+      })
+      .filter((item: any) => id === JSON.stringify(item.instructorId));
+
     return (
       <>
         <Heading content="Kalender" padding={2} />
         <ul className="flex overflow-y-scroll flex-col gap-7 px-5">
-          {activities.length ? (
-            activities.map((activity: Activity) => {
-              return (
-                <li
-                  key={activity.id}
-                  className="p-5 w-full rounded-xl text-primaryBlack bg-primaryWhite"
-                >
-                  <Link
-                    className="w-full h-full"
-                    href={`/calendar/${activity.id}`}
-                  >
-                    <h2 className="text-lg font-bold truncate">
-                      {activity.name}
-                    </h2>
-                    <h4 className="text-md">{activity.time}</h4>
-                  </Link>
-                </li>
-              );
-            })
-          ) : (
-            <p>you have no activities on the calendar</p>
-          )}
+          <CalendarActivities activities={filteredData} isInstructor={true} />
         </ul>
       </>
     );

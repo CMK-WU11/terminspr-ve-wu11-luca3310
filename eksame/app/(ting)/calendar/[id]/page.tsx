@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Heading from "@/components/Heading";
 
 export default async function kalenderDetails({
   params,
@@ -11,8 +12,12 @@ export default async function kalenderDetails({
   const token = cookieStore.get("landrupToken")?.value;
   const userId = cookieStore.get("landrupUserId")?.value;
 
-  console.log(`http://localhost:4000/api/v1/users/${userId}/roster/${id}`);
   try {
+    const activityRes = await fetch(
+      `http://localhost:4000/api/v1/activities/${id}`,
+    );
+    const actitityData = await activityRes.json();
+
     const res = await fetch(
       `http://localhost:4000/api/v1/users/${userId}/roster/${id}`,
       {
@@ -20,8 +25,27 @@ export default async function kalenderDetails({
       },
     );
     const data = await res.json();
-    console.log(data);
-    return <>detajle</>;
+    const group = data.map((item: any) => {
+      return {
+        name: item.firstname + " " + item.lastname,
+      };
+    });
+    return (
+      <section>
+        <Heading padding={2} content={actitityData.name} />
+        <ul className="flex flex-col p-5 text-primaryWhite">
+          {group.length ? (
+            group.map((item: any) => {
+              return <li key={item.name}>{item.name}</li>;
+            })
+          ) : (
+            <p className="text-primaryWhite">
+              der er ikke nogen der har meldt sig til endnu
+            </p>
+          )}
+        </ul>
+      </section>
+    );
   } catch (err: any) {
     throw new Error(err);
   }
