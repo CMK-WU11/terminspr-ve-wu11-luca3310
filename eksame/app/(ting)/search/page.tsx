@@ -1,5 +1,6 @@
 import Activities from "@/components/Activities";
 import Heading from "@/components/Heading";
+import RegistreForm from "@/components/RegistreForm";
 import Search from "@/components/Search";
 import type { Metadata } from "next";
 
@@ -32,7 +33,13 @@ export default async function søg({ searchParams }: any) {
       <>
         <Heading content="Søg" padding={2} />
         <Search />
-        <Activities activities={filteredData} />
+        {query ? (
+          <Activities activities={filteredData} />
+        ) : (
+          <ul className="flex overflow-y-scroll flex-col gap-7 px-5">
+            <p className="text-primaryWhite">søg efter activiteter</p>
+          </ul>
+        )}
       </>
     );
   } catch (err: any) {
