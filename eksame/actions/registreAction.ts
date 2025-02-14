@@ -14,6 +14,8 @@ export default async function registreAction(
   const age = formData.get("age");
   formData.append("role", "default");
 
+  const checked = false;
+
   if (!username || !password || !firstname || !lastname || !age) {
     return {
       formData: {
@@ -84,12 +86,15 @@ export default async function registreAction(
 
     const cookieStore = await cookies();
 
-    cookieStore.set("landrupToken", loginData.token, {
-      maxAge: 50 * 60 * 1000,
-    });
-    cookieStore.set("landrupUserId", loginData.userId, {
-      maxAge: 50 * 60 * 1000,
-    });
+    const maxAge = 60 * 50;
+
+    if (checked) {
+      cookieStore.set("landrupToken", loginData.token, { maxAge: maxAge });
+      cookieStore.set("landrupUserId", loginData.userId, { maxAge: maxAge });
+    } else {
+      cookieStore.set("landrupToken", loginData.token);
+      cookieStore.set("landrupUserId", loginData.userId);
+    }
   } catch (err: any) {
     throw new Error(err);
   }

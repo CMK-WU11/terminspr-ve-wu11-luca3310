@@ -8,13 +8,7 @@ interface Activity {
   id: string;
 }
 
-export default function CalendarActivities({
-  activities,
-  isInstructor,
-}: {
-  activities: Activity[];
-  isInstructor: boolean;
-}) {
+export default function CalendarActivities({ activities, isInstructor, }: { activities: Activity[]; isInstructor: boolean; }) {
   {
     if (activities.length) {
       return activities.map((activity: Activity) => {

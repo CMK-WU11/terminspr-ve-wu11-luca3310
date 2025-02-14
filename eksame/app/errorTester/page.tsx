@@ -1,5 +1,5 @@
 "use server";
 
 export default async function errorTester() {
-  throw new Error("unlucky");
+  throw new Error("test");
 }

@@ -37,6 +37,10 @@ export default function RegistreForm() {
           placeholder="adgangskode"
         />
         <div className="flex justify-between text-xs">
+          <label className="hover:cursor-pointer text-primaryWhite">
+            <input name="checked" type="checkbox" defaultChecked /> keep me
+            logged in
+          </label>
           <Link className="text-primaryWhite" href="/registre">
             already have an account?
           </Link>
